@@ -18,7 +18,6 @@ mongoose.connect(url, {
 })
 
 const personSchema = new mongoose.Schema({
-  id: Number,
   name: String,
   number: String,
 })
@@ -26,13 +25,12 @@ const Person = mongoose.model('Person', personSchema)
 
 if (name && number) {
   const person = new Person({
-    id: Math.random(),
     name: name,
     number: number,
   })
 
   person.save().then((response) => {
-    console.log(`added ${name} number: ${number}`)
+    console.log(`added ${name} number ${number} to phonebook`)
     mongoose.connection.close()
   })
 }
