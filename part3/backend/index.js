@@ -11,7 +11,7 @@ app.use(express.static('build'))
 
 app.use(
   morgan(function (tokens, req, res) {
-    if (req.method == 'POST') {
+    if (req.method === 'POST') {
       return [
         tokens.method(req, res),
         tokens.url(req, res),
@@ -69,7 +69,7 @@ app.put('/api/persons/:id', (request, response) => {
   }
 
   Person.findByIdAndUpdate(request.params.id, person, { new: true })
-    .then((updatedPerson) => {
+    .then(() => {
       Person.find({}).then((persons) => {
         response.json(persons)
       })
