@@ -26,6 +26,22 @@ describe('api testing', () => {
     const result = await api.get('/api/blogs').expect(200)
     expect(result.body[0].id).toBeDefined()
   })
+
+  test('POST request saves blog to MongoDB', async () => {
+    const newBlog = {
+      title: 'Api testing',
+      author: 'megahoma',
+      url: 'github.com',
+      likes: 1,
+    }
+    await api.post('/api/blogs').send(newBlog)
+
+    const blogs_ = await helper.blogsInDb()
+    expect(blogs_).toHaveLength(helper.initialBlogs.length + 1)
+
+    const content = blogs_.map((x) => x.author)
+    expect(content).toContain('megahoma')
+  })
 })
 
 afterAll(() => {
