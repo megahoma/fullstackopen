@@ -42,6 +42,20 @@ describe('api testing', () => {
     const content = blogs_.map((x) => x.author)
     expect(content).toContain('megahoma')
   })
+
+  test('If the likes property is missing, it will default to 0 ', async () => {
+    const newBlog = {
+      title: 'Test for likes',
+      author: 'megahoma',
+      url: 'github.com',
+    }
+
+    await api.post('/api/blogs').send(newBlog)
+
+    const blogs_ = await helper.blogsInDb()
+    const content = await blogs_.find((blog) => blog.title === newBlog.title)
+    expect(content.likes).toBe(0)
+  })
 })
 
 afterAll(() => {
