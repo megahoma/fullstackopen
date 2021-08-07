@@ -56,6 +56,17 @@ describe('api testing', () => {
     const content = await blogs_.find((blog) => blog.title === newBlog.title)
     expect(content.likes).toBe(0)
   })
+
+  test('verifies that if the title and url properties are missing from the request data', async () => {
+    const newBlog = {
+      author: 'megahoma',
+    }
+
+    await api.post('/api/blogs').send(newBlog).expect(400)
+
+    const blogs_ = await helper.blogsInDb()
+    expect(blogs_).toHaveLength(helper.initialBlogs.length)
+  })
 })
 
 afterAll(() => {

@@ -13,6 +13,16 @@ blogsRouter.post('/', async (request, response) => {
     blog.likes = 0
   }
 
+  if (!blog.title && !blog.url) {
+    response
+      .status(400)
+      .json({
+        error: 'content missing',
+      })
+      .end()
+    return
+  }
+
   const result = await blog.save()
   response.status(201).json(result)
 })
