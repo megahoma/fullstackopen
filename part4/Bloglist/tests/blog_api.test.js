@@ -13,14 +13,20 @@ beforeEach(async () => {
     await blogObject.save()
   }
 })
+describe('api testing', () => {
+  test('blogs are returned as json', async () => {
+    const response = await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+    expect(response.body).toHaveLength(helper.initialBlogs.length)
+  }, 100000)
 
-test('blogs are returned as json', async () => {
-  const response = await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/)
-  expect(response.body).toHaveLength(helper.initialBlogs.length)
-}, 100000)
+  test('verifies that the unique identifier property of the blog posts is named id', async () => {
+    const result = await api.get('/api/blogs').expect(200)
+    expect(result.body[0].id).toBeDefined()
+  })
+})
 
 afterAll(() => {
   mongoose.connection.close()
