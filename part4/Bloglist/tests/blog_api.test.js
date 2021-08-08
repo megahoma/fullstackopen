@@ -13,7 +13,7 @@ beforeEach(async () => {
     await blogObject.save()
   }
 })
-describe('api testing', () => {
+describe('Blog api testing', () => {
   test('blogs are returned as json', async () => {
     const response = await api
       .get('/api/blogs')
