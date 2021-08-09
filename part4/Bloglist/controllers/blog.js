@@ -1,27 +1,21 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 blogsRouter.get('/', async (request, response) => {
-  const result = await Blog.find({})
-  response.json(result)
-})
-
-blogsRouter.get('/:id', async (request, response) => {
-  const blog = await Blog.findById(request.params.id)
-  if (blog) {
-    response.json(blog.toJSON())
-  } else {
-    response.status(404).end()
-  }
+  const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
+  response.json(blogs.map((blog) => blog.toJSON()))
 })
 
 blogsRouter.post('/', async (request, response) => {
-  const blog = new Blog(request.body)
+  const body = request.body
 
-  if (!blog.likes) {
-    blog.likes = 0
+  const users = await User.find({})
+
+  if (!body.likes) {
+    body.likes = 0
   }
-
+  /*
   if (!blog.title && !blog.url) {
     response
       .status(400)
@@ -31,9 +25,31 @@ blogsRouter.post('/', async (request, response) => {
       .end()
     return
   }
+  */
 
-  const result = await blog.save()
-  response.status(201).json(result)
+  const randomUser = users[Math.floor(Math.random() * users.length)]
+  const blog = new Blog({
+    title: body.title,
+    author: body.author,
+    url: body.url,
+    likes: body.likes,
+    user: randomUser._id,
+  })
+
+  const savedBlog = await blog.save()
+  randomUser.blogs = randomUser.blogs.concat(savedBlog._id)
+  await randomUser.save()
+
+  response.json(savedBlog)
+})
+
+blogsRouter.get('/:id', async (request, response) => {
+  const blog = await Blog.findById(request.params.id)
+  if (blog) {
+    response.json(blog.toJSON())
+  } else {
+    response.status(404).end()
+  }
 })
 
 blogsRouter.delete('/:id', async (request, response) => {
