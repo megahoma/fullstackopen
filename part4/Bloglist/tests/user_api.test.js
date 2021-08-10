@@ -49,21 +49,6 @@ describe('User api testing', () => {
     expect(users_).toHaveLength(users.length)
   })
 
-  test('creation fails username', async () => {
-    const users = await helper.usersInDb()
-
-    const newUser = {
-      username: 'ro',
-      name: 'Test',
-      password: 'testing',
-    }
-
-    const result = await api.post('/api/users').send(newUser).expect(400)
-
-    const users_ = await helper.usersInDb()
-    expect(users_).toHaveLength(users.length)
-  })
-
   test('creation fails password ', async () => {
     const users = await helper.usersInDb()
 
