@@ -38,7 +38,7 @@ const Blog = (props) => {
   return (
     <div style={blogStyle}>
       <div style={hideWhenVisible}>
-        {blog.title} {blog.author}
+        {blog.title} - {blog.author}
         <button
           onClick={() => {
             setBlogTextVisible(true)
