@@ -64,6 +64,7 @@ const Blog = (props) => {
           <li>
             {blogObject.likes}{' '}
             <button
+              id="like-button"
               onClick={() => {
                 likeUp()
               }}
@@ -74,6 +75,7 @@ const Blog = (props) => {
           <li>{blog.author}</li>
         </ul>
         <button
+          id="remove"
           onClick={() => {
             remBlog(blog)
           }}

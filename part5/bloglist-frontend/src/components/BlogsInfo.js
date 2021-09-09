@@ -13,7 +13,10 @@ const UserInfo = ({ user, setUser, setMessage }) => {
   return (
     <>
       <p>
-        {user.name} logged in <button onClick={handleLogout}>Logout</button>
+        {user.name} logged in{' '}
+        <button id="logout" onClick={handleLogout}>
+          logout
+        </button>
       </p>
     </>
   )
