@@ -7,10 +7,11 @@ const AnecdoteList = () => {
   const anecdotes = useSelector((state) => {
     const filter = state.filter
     const anecdotes = state.anecdotes
-    if (filter === '') return anecdotes
+    if (filter === null) return anecdotes
 
     return anecdotes.filter((anecdote) => anecdote.content.indexOf(filter) > 0)
   })
+
   const dispatch = useDispatch()
 
   const vote = (anecdote) => {
