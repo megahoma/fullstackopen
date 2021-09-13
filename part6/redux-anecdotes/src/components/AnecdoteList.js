@@ -18,7 +18,7 @@ const AnecdoteList = () => {
     console.log('vote', anecdote.id)
     dispatch(voteAnecdote(anecdote))
 
-    dispatch(setNotification(`You voted ${anecdote.content}'`, 5000))
+    dispatch(setNotification(`You voted ${anecdote.content}'`, 5))
   }
 
   return (
@@ -37,4 +37,4 @@ const AnecdoteList = () => {
   )
 }
 
-export { AnecdoteList }
+export default AnecdoteList
