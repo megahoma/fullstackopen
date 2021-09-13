@@ -1,3 +1,5 @@
+import { getAll, createNew, vote } from '../service/anecdotes'
+
 const anecdoteReducer = (state = [], action) => {
   console.log('state now: ', state)
   console.log('action', action)
@@ -9,7 +11,7 @@ const anecdoteReducer = (state = [], action) => {
       return [...state, action.data]
     case 'VOTE': {
       return state.map((anecdote) =>
-        anecdote.id === action.data.id
+        anecdote.id === action.data
           ? { ...anecdote, votes: anecdote.votes + 1 }
           : anecdote
       )
@@ -22,23 +24,32 @@ const anecdoteReducer = (state = [], action) => {
 }
 
 export const createAnecdote = (data) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    data,
+  return async (dispatch) => {
+    const newAnecdotes = await createNew(data)
+    dispatch({
+      type: 'NEW_ANECDOTE',
+      data: newAnecdotes,
+    })
   }
 }
 
-export const voteAnecdote = (id) => {
-  return {
-    type: 'VOTE',
-    data: { id },
+export const voteAnecdote = (anecdote) => {
+  return async (dispatch) => {
+    await vote({ ...anecdote, votes: anecdote.votes + 1 })
+    dispatch({
+      type: 'VOTE',
+      data: anecdote.id,
+    })
   }
 }
 
 export const initAnecdotes = (anecdotes) => {
-  return {
-    type: 'INIT_ANECDOTES',
-    data: anecdotes,
+  return async (dispatch) => {
+    const anecdotes = await getAll()
+    dispatch({
+      type: 'INIT_ANECDOTES',
+      data: anecdotes,
+    })
   }
 }
 
