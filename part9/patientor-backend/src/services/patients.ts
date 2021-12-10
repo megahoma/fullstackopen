@@ -1,3 +1,5 @@
+import { v1 as uuid } from 'uuid';
+
 import data from '../../data/patients.json';
 import { Patient } from '../types';
 
@@ -13,6 +15,15 @@ const getEntries = (): Omit<Patient, 'ssn'>[] => {
   }));
 };
 
+const addEntry = (data: Omit<Patient, 'id'>): Patient => {
+  const id: string = uuid();
+  const newEntry = { id, ...data };
+
+  patients.push(newEntry);
+  return newEntry;
+};
+
 export default {
   getEntries,
+  addEntry,
 };
