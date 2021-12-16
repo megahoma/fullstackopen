@@ -15,4 +15,9 @@ router.post('/', (req, res) => {
   res.json(newEntry);
 });
 
+router.get('/:id', (req, res) => {
+  const params = req.params;
+  return res.send(patients.getIdEntries(params.id));
+});
+
 export default router;

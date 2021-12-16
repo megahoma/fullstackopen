@@ -44,6 +44,7 @@ const toPatientEntry = (object: any): Omit<Patient, 'id'> => {
     ssn: parseString(object.ssn),
     gender: parseGender(object.gender),
     occupation: parseString(object.occupation),
+    entries: [],
   };
 };
 
